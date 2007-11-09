@@ -1,0 +1,5 @@
+inherit gnome2
+
+DESCRIPTION="GTK+ CD Ripper"
+HOMEPAGE="http://ripoffc.sourceforge.net/"
+SRC_URI="mirror://sourceforge/ripoffc/${P}.tar.gz"
