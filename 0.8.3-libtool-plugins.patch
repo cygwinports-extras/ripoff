@@ -1,0 +1,82 @@
+--- origsrc/ripoff-0.8.3/lib/Makefile.am	2007-11-08 13:18:00.000000000 -0600
++++ src/ripoff-0.8.3/lib/Makefile.am	2008-12-29 19:57:40.737500000 -0600
+@@ -15,4 +15,5 @@
+                        RipOffPluginRawInterface.h \
+ 		       $(PACKAGE).xpm
+ libripoff_la_LIBADD = @XML_LIBS@ @GTK_LIBS@
++libripoff_la_LDFLAGS = -no-undefined
+ libripoff_la_CFLAGS= @GTK_CFLAGS@ @XML_CFLAGS@
+--- origsrc/ripoff-0.8.3/plugins/flac/Makefile.am	2007-11-08 13:17:58.000000000 -0600
++++ src/ripoff-0.8.3/plugins/flac/Makefile.am	2008-12-29 19:57:40.815625000 -0600
+@@ -1,11 +1,11 @@
+ if HAVE_FLAC
+ 
+-libflac_PROGRAMS =  libflac.so
++libflac_LTLIBRARIES =  libflac.la
+ endif
+ 
+ INCLUDES = -I $(top_srcdir)
+ libflacdir = @plugindir@
+-libflac_so_SOURCES = FlacPlugin.c
+-libflac_so_LDADD =  -lFLAC
+-libflac_so_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ -fPIC
+-libflac_so_LDFLAGS = -shared 
++libflac_la_SOURCES = FlacPlugin.c
++libflac_la_LIBADD = $(top_builddir)/lib/libripoff.la @GTK_LIBS@ -lFLAC
++libflac_la_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ 
++libflac_la_LDFLAGS = -module -avoid-version -no-undefined 
+--- origsrc/ripoff-0.8.3/plugins/lame/Makefile.am	2007-11-08 13:17:58.000000000 -0600
++++ src/ripoff-0.8.3/plugins/lame/Makefile.am	2008-12-29 19:57:40.846875000 -0600
+@@ -1,12 +1,12 @@
+ if HAVE_MP3
+ 
+-liblame_PROGRAMS =  liblame.so
++liblame_LTLIBRARIES =  liblame.la
+ 
+ endif
+ 
+ INCLUDES = -I $(top_srcdir)
+ liblamedir = @plugindir@
+-liblame_so_SOURCES = LamePlugin.c
+-liblame_so_LDADD =  -lmp3lame
+-liblame_so_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ -fPIC
+-liblame_so_LDFLAGS = -shared 
++liblame_la_SOURCES = LamePlugin.c
++liblame_la_LIBADD = $(top_builddir)/lib/libripoff.la @GTK_LIBS@ -lmp3lame
++liblame_la_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ 
++liblame_la_LDFLAGS = -module -avoid-version -no-undefined 
+--- origsrc/ripoff-0.8.3/plugins/vorbis/Makefile.am	2007-11-08 13:17:58.000000000 -0600
++++ src/ripoff-0.8.3/plugins/vorbis/Makefile.am	2008-12-29 19:57:40.893750000 -0600
+@@ -1,12 +1,12 @@
+ if HAVE_OGGVORBIS
+ 
+-libvorbis_PROGRAMS =  libvorbis.so
++libvorbis_LTLIBRARIES =  libvorbis.la
+ 
+ endif
+ 
+ INCLUDES = -I $(top_srcdir)
+ libvorbisdir = @plugindir@
+-libvorbis_so_SOURCES = VorbisPlugin.c
+-libvorbis_so_LDADD =  -logg -lvorbis -lvorbisenc
+-libvorbis_so_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ -fPIC
+-libvorbis_so_LDFLAGS = -shared 
++libvorbis_la_SOURCES = VorbisPlugin.c
++libvorbis_la_LIBADD = $(top_builddir)/lib/libripoff.la @GTK_LIBS@ -logg -lvorbis -lvorbisenc
++libvorbis_la_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ 
++libvorbis_la_LDFLAGS = -module -avoid-version -no-undefined 
+--- origsrc/ripoff-0.8.3/plugins/wav/Makefile.am	2007-11-08 13:17:58.000000000 -0600
++++ src/ripoff-0.8.3/plugins/wav/Makefile.am	2008-12-29 19:57:40.925000000 -0600
+@@ -1,7 +1,8 @@
+-libwav_PROGRAMS =  libwav.so
++libwav_LTLIBRARIES =  libwav.la
+ 
+ INCLUDES = -I $(top_srcdir)
+ libwavdir = @plugindir@
+-libwav_so_SOURCES = WavPlugin.c
+-libwav_so_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ -fPIC
+-libwav_so_LDFLAGS = -shared 
++libwav_la_SOURCES = WavPlugin.c
++libwav_la_LIBADD = $(top_builddir)/lib/libripoff.la @glib_LIBS@
++libwav_la_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ 
++libwav_la_LDFLAGS = -module -avoid-version -no-undefined 

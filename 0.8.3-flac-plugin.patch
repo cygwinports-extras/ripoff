@@ -1,0 +1,11 @@
+--- origsrc/ripoff-0.8.3/plugins/flac/FlacPlugin.c	2007-11-08 13:17:58.000000000 -0600
++++ src/ripoff-0.8.3/plugins/flac/FlacPlugin.c	2008-12-29 19:57:40.768750000 -0600
+@@ -535,7 +535,7 @@
+ 	{
+ 		case 0:	FLAC__stream_encoder_set_max_lpc_order(plugin->encoder, 0);
+ 			FLAC__stream_encoder_set_blocksize(plugin->encoder, 1152);
+-			FLAC___stream_encoder_set_do_mid_side_stereo(plugin->encoder, FALSE);
++			FLAC__stream_encoder_set_do_mid_side_stereo(plugin->encoder, FALSE);
+ 			FLAC__stream_encoder_set_loose_mid_side_stereo(plugin->encoder, FALSE);
+ 			FLAC__stream_encoder_set_min_residual_partition_order(plugin->encoder, 2);
+ 			FLAC__stream_encoder_set_max_residual_partition_order(plugin->encoder, 2);

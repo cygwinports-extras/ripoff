@@ -3,3 +3,8 @@ inherit gnome2
 DESCRIPTION="GTK+ CD Ripper"
 HOMEPAGE="http://ripoffc.sourceforge.net/"
 SRC_URI="mirror://sourceforge/ripoffc/${P}.tar.gz"
+PATCH_URI="
+	0.8.3-libtool-plugins.patch
+	0.8.3-main-cdio.patch
+	0.8.3-flac-plugin.patch
+"

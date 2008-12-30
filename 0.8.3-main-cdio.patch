@@ -1,0 +1,108 @@
+--- origsrc/ripoff-0.8.3/src/main.c	2007-11-08 13:17:59.000000000 -0600
++++ src/ripoff-0.8.3/src/main.c	2008-12-29 21:45:56.362500000 -0600
+@@ -18,8 +18,6 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ #include <cdio/cdio.h>
+-#include <sys/ioctl.h>
+-#include <linux/cdrom.h>
+ #include "lib/RipOff.h"
+ #include "RipOffPreferences.h"
+ #include "RipOffCore.h"
+@@ -73,16 +71,15 @@
+ 
+ void initial_cd_status(RipOffPreferences prefs, RipOffCore core)
+ {
+-	gint drive;
+-	gint drive2;
++	CdIo_t *drive;
+ 	const gchar *device_path;
+ 	gchar *error_message;
+ 	extern GtkWidget *status_bar;
+ 
+ 	device_path = ripoff_preferences_get_cd_device_path(prefs);
+-	drive = open(device_path, O_RDONLY | O_NONBLOCK, S_IRWXO);
++	drive = cdio_open(device_path, DRIVER_DEVICE);
+ 
+-	if(drive == -1)
++	if(drive == NULL)
+ 	{
+ 		error_message = g_malloc(strlen(device_path) + strlen(" is not a valid device.")
+ 					 +1);
+@@ -96,16 +93,14 @@
+ 	else
+ 	{
+ 	
+-		drive2 = ioctl(drive, CDROM_DRIVE_STATUS);
+-
+-		if(drive2 != CDS_DISC_OK)
++		if(cdio_get_num_tracks(drive) == CDIO_INVALID_TRACK)
+ 		{
+ 			ripoff_drive_not_ready = TRUE;
+ 			gtk_statusbar_pop(GTK_STATUSBAR(status_bar), 1);
+ 			gtk_statusbar_push(GTK_STATUSBAR(status_bar), 1, "No CD inserted");	
+ 		}
+ 
+-		else if(drive2 == CDS_DISC_OK)
++		else
+ 		{
+ 			ripoff_core_set_album(core, "Untitled Album");
+ 			ripoff_core_set_artist(core, "Unknown Artist");
+@@ -116,24 +111,23 @@
+ 			gtk_statusbar_push(GTK_STATUSBAR(status_bar), 1, "CD successfully read");
+ 		}
+ 
+-		close(drive);
++		free(drive);
+ 	}
+ 		
+ }
+ 
+ gboolean monitor_cd(gpointer ptr)
+ {
+-	gint drive;
+-	gint drive2;
++	CdIo_t *drive;
+ 	extern GtkWidget *status_bar;
+ 	const gchar *device_path;
+ 	gchar *error_message;
+ 	RipOffCore core = (RipOffCore) ptr;
+ 	
+ 	device_path = ripoff_preferences_get_cd_device_path(core->prefs);
+-	drive = open(device_path, O_RDONLY | O_NONBLOCK, S_IRWXO);
++	drive = cdio_open(device_path, DRIVER_DEVICE);
+ 
+-	if(drive == -1)
++	if(drive == NULL)
+ 	{
+ 		error_message = g_malloc(strlen(device_path) + strlen(" is not a valid device.")
+ 					 +1);
+@@ -148,9 +142,7 @@
+ 
+ 	else
+ 	{
+-		drive2 = ioctl(drive, CDROM_DRIVE_STATUS);
+-
+-		if(drive2 != CDS_DISC_OK && !ripoff_drive_not_ready)
++		if(cdio_get_num_tracks(drive) == CDIO_INVALID_TRACK && !ripoff_drive_not_ready)
+ 		{
+ 			ripoff_core_clear_model((RipOffCore)ptr);
+ 			ripoff_core_set_album(core, "");
+@@ -162,7 +154,7 @@
+ 			gtk_statusbar_push(GTK_STATUSBAR(status_bar), 1, "No CD inserted");	
+ 		}
+ 
+-		else if(drive2 == CDS_DISC_OK && ripoff_drive_not_ready)
++		else if(cdio_get_num_tracks(drive) != CDIO_INVALID_TRACK && ripoff_drive_not_ready)
+ 		{
+ 			ripoff_core_set_album(core, "Untitled Album");
+ 			ripoff_core_set_artist(core, "Unknown Artist");
+@@ -174,7 +166,7 @@
+ 		}
+ 	
+ 		
+-		close(drive);
++		free(drive);
+ 	}
+ 
+ 	return TRUE;	
