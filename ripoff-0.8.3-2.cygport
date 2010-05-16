@@ -8,3 +8,12 @@ PATCH_URI="
 	0.8.3-main-cdio.patch
 	0.8.3-flac-plugin.patch
 "
+
+CYGCONF_ARGS="--enable-debugging"
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	rm -f ${D}/usr/lib/ripoff/plugins/*a
+}

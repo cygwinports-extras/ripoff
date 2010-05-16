@@ -62,7 +62,7 @@
 -libvorbis_so_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ -fPIC
 -libvorbis_so_LDFLAGS = -shared 
 +libvorbis_la_SOURCES = VorbisPlugin.c
-+libvorbis_la_LIBADD = $(top_builddir)/lib/libripoff.la @GTK_LIBS@ -logg -lvorbis -lvorbisenc
++libvorbis_la_LIBADD = $(top_builddir)/lib/libripoff.la @GTK_LIBS@ -lvorbisenc -lvorbis -logg
 +libvorbis_la_CFLAGS =  @GTK_CFLAGS@ @XML_CFLAGS@ 
 +libvorbis_la_LDFLAGS = -module -avoid-version -no-undefined 
 --- origsrc/ripoff-0.8.3/plugins/wav/Makefile.am	2007-11-08 13:17:58.000000000 -0600
