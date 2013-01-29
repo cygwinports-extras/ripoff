@@ -1,0 +1,19 @@
+inherit gnome2
+
+NAME="ripoff"
+VERSION=0.8.3
+RELEASE=4
+CATEGORY="Audio"
+SUMMARY="GTK+ CD ripper"
+DESCRIPTION="RipOff is a GTK+ based CD Ripper for Linux and other *NIX systems
+that sports a simple interface, CDDB lookups, and a plugin-based encoder
+architecture."
+HOMEPAGE="http://ripoffc.sourceforge.net/"
+SRC_URI="mirror://sourceforge/ripoffc/${P}.tar.gz"
+PATCH_URI="
+	0.8.3-libtool-plugins.patch
+	0.8.3-main-cdio.patch
+	0.8.3-flac-plugin.patch
+"
+
+CYGCONF_ARGS="--enable-debugging"

@@ -1,6 +1,0 @@
-category: Audio Gnome
-requires: libcddb2 libcdio13 libcdio_cdda1 libcdio_paranoia1 libFLAC8 libgcc1 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libmp3lame0 libogg0 libvorbis0 libvorbisenc2 libX11_6 libxml2
-sdesc: "GTK+ CD ripper"
-ldesc: "RipOff is a GTK+ based CD Ripper for Linux and other *NIX 
-systems that sports a simple interface, CDDB lookups, and a plugin-based 
-encoder architecture."
