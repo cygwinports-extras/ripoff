@@ -2,7 +2,7 @@ inherit gnome2
 
 NAME="ripoff"
 VERSION=0.8.3
-RELEASE=4
+RELEASE=5
 CATEGORY="Audio"
 SUMMARY="GTK+ CD ripper"
 DESCRIPTION="RipOff is a GTK+ based CD Ripper for Linux and other *NIX systems
